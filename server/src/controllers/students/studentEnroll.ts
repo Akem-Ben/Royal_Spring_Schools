@@ -1,18 +1,22 @@
 import express, {Request, Response} from 'express';
 import Students from '../../models/studentsModel/students';
 import {v4} from 'uuid'
-import { axiosVerifyStudent, hashPassword, passWordGenerator } from '../../utilities/helpers';
+import { axiosVerifyStudent, hashPassword, isValidRegistration, passWordGenerator } from '../../utilities/helpers';
 import { emailHtml, sendmail } from '../../utilities/notification';
 
 
 export const registerStudent = async (req:Request, res:Response) => {
     try{
-        const reg_no = req.body
+        const {reg_no} = req.body
+        if (!isValidRegistration(reg_no)) {
+            return res.status(400).json({status: `error`, message: `Invalid Registration Number`})
+          }
         const checkStudent = await Students.findOne({where: {reg_no}})
         if(checkStudent) return res.status(400).json({status: `error`, message: `Student ${reg_no} already registered, please login`})
         const confirmStudent = await axiosVerifyStudent(reg_no)
-        if(confirmStudent.data.message === 'Student not found') return res.status(404).json({message: `${reg_no} does not exist, contact the Students Affairs Unit`})
-        const studentData = confirmStudent.data.data
+    
+    if(confirmStudent === 'not found') return res.status(404).json({status: `error`, message: `${reg_no} does not exist, contact the Student Affairs Unit`})
+        const studentData = confirmStudent.data
 
     let password = passWordGenerator(studentData.lastName)
     let emailData = emailHtml(studentData.reg_no, password)
@@ -35,9 +39,9 @@ export const registerStudent = async (req:Request, res:Response) => {
     await createStudent.save()
 
     const findStudent = await Students.findOne({where: {reg_no}})
-    if(!findStudent) return res.status(400).json({message: `Unable to create`})
+    if(!findStudent) return res.status(400).json({status: `error`, message: `Unable to create`})
 
-    return res.status(200).json({status: `successful`, data: findStudent,})
+    return res.status(200).json({status: `success`, data: findStudent,})
     }catch(error:any){
         console.log(error.message)
         return res.status(500).json({message: `Internal Server Error`})

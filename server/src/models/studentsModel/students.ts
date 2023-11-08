@@ -1,5 +1,6 @@
 import {Model, DataTypes} from 'sequelize';
 import {database} from '../../configurations/database'
+import Courses from '../coursesModel/courses';
 
 export interface StudentAttributes {
     id: string;
@@ -58,5 +59,8 @@ Students.init({
     timestamps: true
 }
 )
+
+Students.hasMany(Courses, {foreignKey:'student_regNo' as 'Course'})
+Courses.belongsTo(Students, {foreignKey: 'student_regNo' as 'Student'})
 
 export default Students

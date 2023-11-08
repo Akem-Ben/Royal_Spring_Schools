@@ -9,14 +9,17 @@ const helpers_1 = require("../../utilities/helpers");
 const notification_1 = require("../../utilities/notification");
 const registerStudent = async (req, res) => {
     try {
-        const reg_no = req.body;
+        const { reg_no } = req.body;
+        if (!(0, helpers_1.isValidRegistration)(reg_no)) {
+            return res.status(400).json({ status: `error`, message: `Invalid Registration Number` });
+        }
         const checkStudent = await students_1.default.findOne({ where: { reg_no } });
         if (checkStudent)
             return res.status(400).json({ status: `error`, message: `Student ${reg_no} already registered, please login` });
         const confirmStudent = await (0, helpers_1.axiosVerifyStudent)(reg_no);
-        if (confirmStudent.data.message === 'Student not found')
-            return res.status(404).json({ message: `${reg_no} does not exist, contact the Students Affairs Unit` });
-        const studentData = confirmStudent.data.data;
+        if (confirmStudent === 'not found')
+            return res.status(404).json({ status: `error`, message: `${reg_no} does not exist, contact the Student Affairs Unit` });
+        const studentData = confirmStudent.data;
         let password = (0, helpers_1.passWordGenerator)(studentData.lastName);
         let emailData = (0, notification_1.emailHtml)(studentData.reg_no, password);
         await (0, notification_1.sendmail)(studentData.email, emailData);
@@ -36,8 +39,8 @@ const registerStudent = async (req, res) => {
         await createStudent.save();
         const findStudent = await students_1.default.findOne({ where: { reg_no } });
         if (!findStudent)
-            return res.status(400).json({ message: `Unable to create` });
-        return res.status(200).json({ status: `successful`, data: findStudent, });
+            return res.status(400).json({ status: `error`, message: `Unable to create` });
+        return res.status(200).json({ status: `success`, data: findStudent, });
     }
     catch (error) {
         console.log(error.message);

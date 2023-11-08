@@ -5,7 +5,8 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import {database} from './configurations/database'
 import { HttpError } from "http-errors"
-
+import studentRouter from './routes/students/students'
+import courseRouter from './routes/courses/courses'
 
 dotenv.config()
 
@@ -16,6 +17,8 @@ app.use(cors())
 app.use(logger("dev"))
 app.use(cookieParser())
 app.use(express.urlencoded({extended: false}));
+app.use("/students", studentRouter)
+app.use("/courses", courseRouter)
 
 database.sync({})
   .then(() => {

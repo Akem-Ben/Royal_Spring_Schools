@@ -1,0 +1,30 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.markAsCompleted = void 0;
+const courses_1 = __importDefault(require("../../models/coursesModel/courses"));
+const markAsCompleted = async (req, res) => {
+    try {
+        const reg_no = req.user.reg_no;
+        const course_code = req.params.course_code;
+        const courseFinder = await courses_1.default.findOne({ where: { course_code, student_regNo: reg_no } });
+        if (!courseFinder)
+            return res.status(404).json({ status: `error`, message: `Course not found` });
+        if (courseFinder.isCompleted === true)
+            return res.status(400).json({ status: `error`, message: `You have already completed this course` });
+        await courses_1.default.update({ isCompleted: true }, {
+            where: { course_code, student_regNo: reg_no },
+        });
+        const updatedCourse = await courses_1.default.findOne({
+            where: { course_code, student_regNo: reg_no },
+        });
+        return res.status(200).json({ status: `success`, data: updatedCourse });
+    }
+    catch (err) {
+        console.log(err.message);
+        return res.status(500).json({ status: `error`, message: `Internal Server Error` });
+    }
+};
+exports.markAsCompleted = markAsCompleted;
