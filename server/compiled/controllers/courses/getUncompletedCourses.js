@@ -7,8 +7,18 @@ exports.getStudentUncompletedCourses = void 0;
 const courses_1 = __importDefault(require("../../models/coursesModel/courses"));
 const getStudentUncompletedCourses = async (req, res) => {
     try {
+        const page = Number.parseInt(req.query.page) - 1 || 0;
+        const limit = Number.parseInt(req.query.limit) || 5;
         const reg_no = req.user.reg_no;
-        const courseFinder = await courses_1.default.findAll({ where: { student_regNo: reg_no, isCompleted: false } });
+        const offset = page * limit;
+        const courseFinder = await courses_1.default.findAndCountAll({
+            where: {
+                student_regNo: reg_no,
+                isCompleted: false,
+            },
+            limit: limit,
+            offset: offset
+        });
         if (!courseFinder)
             return res.status(404).json({ status: `error`, message: `No courses found` });
         if (courseFinder.length === 0)

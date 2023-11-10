@@ -7,13 +7,22 @@ exports.getStudentCompletedCourses = void 0;
 const courses_1 = __importDefault(require("../../models/coursesModel/courses"));
 const getStudentCompletedCourses = async (req, res) => {
     try {
+        const page = Number.parseInt(req.query.page) - 1 || 0;
+        const limit = Number.parseInt(req.query.limit) || 5;
         const reg_no = req.user.reg_no;
-        const courseFinder = await courses_1.default.findAll({ where: { student_regNo: reg_no, isCompleted: true } });
-        if (!courseFinder)
+        const offset = page * limit;
+        const courseFinder = await courses_1.default.findAndCountAll({
+            where: {
+                student_regNo: reg_no,
+                isCompleted: true,
+            },
+            limit: limit,
+            offset: offset
+        });
+        if (!courseFinder || courseFinder.count === 0) {
             return res.status(404).json({ status: `error`, message: `No courses found in this category` });
-        if (courseFinder.length === 0)
-            return res.status(200).json({ status: `success`, message: `No completed courses yet` });
-        return res.status(200).json({ status: `success`, data: courseFinder });
+        }
+        return res.status(200).json({ status: `success`, data: courseFinder.rows, count: courseFinder.count });
     }
     catch (err) {
         console.log(err.message);
@@ -21,3 +30,14 @@ const getStudentCompletedCourses = async (req, res) => {
     }
 };
 exports.getStudentCompletedCourses = getStudentCompletedCourses;
+// const pageAsNumber = Number.parseInt(req.query.page);
+// const sizeAsNumber = Number.parseInt(req.query.size);
+// let page = 1;
+// if(!Number.isNaN(pageAsNumber) && pageAsNumber > 0){
+//   page = pageAsNumber;
+// }
+// let size = 10;
+// if(!Number.isNaN(sizeAsNumber) && !(sizeAsNumber > 10) && !(sizeAsNumber < 1)){
+//   size = sizeAsNumber;
+// }
+// const courseFinder = await Courses.findAll({where: {student_regNo:reg_no, isCompleted:true}})

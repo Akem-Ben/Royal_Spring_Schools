@@ -22,16 +22,27 @@ const axiosVerifyStudent = async (reg_no) => {
     }
 };
 exports.axiosVerifyStudent = axiosVerifyStudent;
-const axiosgetAllCourses = async () => {
+const axiosgetAllCourses = async (queryParams) => {
     try {
         const url = `https://database-for-students-and-courses.onrender.com/courses/all_courses`;
-        const response = await axios_1.default.get(url);
-        return response.data;
+        const page = Number.parseInt(queryParams.page || '1', 10);
+        const limit = Number.parseInt(queryParams.limit || '10', 10);
+        const search = queryParams.search || '';
+        const sort = queryParams.sort || 'name_of_course';
+        const response = await axios_1.default.get(url, {
+            params: {
+                page,
+                limit,
+                search,
+                sort,
+            },
+        });
+        return response;
     }
     catch (error) {
         // Handle the error here
-        if (error.response && error.response.status === 404) {
-            return "not found"; // Return an empty array to indicate no data found
+        if (axios_1.default.isAxiosError(error) && error.response && error.response.status === 404) {
+            throw new Error('not found'); // Throw an error to indicate no data found
         }
         throw error; // Re-throw other errors
     }
