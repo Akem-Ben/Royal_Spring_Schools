@@ -5,21 +5,3 @@
 .bg-lady{
   background-image: url("./assets/lady-trader.png");
 }
-
-
-
-
-
-
-
-
-/* In your CSS */
-.font-bodoni-moda {
-  font-family: 'Bodoni Moda', sans-serif;
-}
-
-/* styles.css or your CSS file */
-:root {
-  --Green-1: #219653;
-  --Red: #EB5757;
-}
