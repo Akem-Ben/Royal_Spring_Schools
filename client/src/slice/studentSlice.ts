@@ -40,7 +40,7 @@ export const userLogin = createAsyncThunk(
         try {
             const response = await axios.post("/students/login", payload);
             console.log('response is', response.data)
-            localStorage.setItem("student", JSON.stringify(response.data.findStudent));
+            localStorage.setItem("student", JSON.stringify(response.data.data));
             localStorage.setItem("token", JSON.stringify(response.data.token));
            
 

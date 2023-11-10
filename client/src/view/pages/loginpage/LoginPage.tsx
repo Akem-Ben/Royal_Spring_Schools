@@ -36,7 +36,6 @@ const LoginStudent = () => {
       // localStorage.setItem("user", JSON.stringify(data.User))
       navigate('/dashboard')
     } catch (error: any) {
-        console.log('error', error)
       setLoading(false);
       if (error) {
         toast.error(error)
@@ -115,7 +114,7 @@ const LoginStudent = () => {
     <button
       className="landing_btn py-3 px-4 w-full flex justify-center items-center gap-2 rounded-md bg-green-600 text-white h-10 font-inter hover:bg-white hover:text-green-700 hover:border-2"
     >
-      {loading ? "Loading..." : "Enroll"}
+      {loading ? "Loading..." : "Login"}
     </button>
   </div>
   <div className="flex flex-col lg:flex-row items-center justify-center">
