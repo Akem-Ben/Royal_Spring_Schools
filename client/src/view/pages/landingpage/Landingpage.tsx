@@ -1,20 +1,23 @@
 import "./Landingpage.css";
-import { useNavigate } from "react-router-dom";
 import contribution from "../../../assets/landingpage/contribution.png";
 import integration from "../../../assets/landingpage/integration.png";
 import notification from "../../../assets/landingpage/notification.png";
-import instagram from "../../../assets/landingpage/instagram.png";
-import twitter from "../../../assets/landingpage/twitter.png";
-import youtube from "../../../assets/landingpage/youtube.png";
 import { Navbar } from "../../../components/Navbars/LandingNavbar";
+import {Footer} from '../../../components/Footer/Footer'
 import vid from "../../../assets/landingpage/vid.webm"
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
     const navigate = useNavigate();
-    const handleButtonClick = () => {
+    const handleSignupButtonClick = () => {
       navigate("/signup");
     };
-  
+    const handleLoginButtonClick = () => {
+      navigate("/login");
+    };
+    const handleButtonClick = () => {
+      navigate("#");
+    };
     return (
       <>
       <Navbar />
@@ -39,9 +42,10 @@ const LandingPage = () => {
         <p className="text-white text-center mb-4 md:mb-0">
           Are you newly enrolled?
         </p>
+        <br />
         <button
           className="landing_btn py-3 px-4 flex justify-center items-center gap-2 rounded-md bg-green-600 text-white h-10 mt-1 font-inter transition duration-300 hover:bg-white hover:text-green-700 hover:border-2"
-          onClick={handleButtonClick}
+          onClick={handleSignupButtonClick}
         >
           Register
         </button>
@@ -51,9 +55,10 @@ const LandingPage = () => {
         <p className="text-white text-center mb-4 md:mb-0">
           Already Registered?
         </p>
+        <br />
         <button
           className="landing_btn py-3 px-4 flex justify-center items-center gap-2 rounded-md bg-green-600 text-white h-10 mt-1 font-inter transition duration-300 hover:bg-white hover:text-green-700 hover:border-2"
-          onClick={handleButtonClick}
+          onClick={handleLoginButtonClick}
         >
           Login
         </button>
@@ -61,8 +66,9 @@ const LandingPage = () => {
 
       <div className="flex flex-col items-center justify-center h-full">
         <p className="text-white text-center mb-4 md:mb-0">
-          Return to Home Page?
+          Return to University Main Website?
         </p>
+        <br />
         <button
           className="landing_btn py-3 px-4 flex justify-center items-center gap-2 rounded-md bg-green-600 text-white h-10 mt-1 font-inter transition duration-300 hover:bg-white hover:text-green-700 hover:border-2"
           onClick={handleButtonClick}
@@ -99,7 +105,7 @@ const LandingPage = () => {
                   You can mark courses as completed on the dashboard. This keeps you informed of your progress during the semester in view.
                 </span>
               </div>
-              <div className="flex w-full md:w-[300px] p-5 flex-col items-start gap-4">
+              <div className="flex w-full md:w-[300px] p-3 flex-col items-start gap-4">
                 <img src={notification} alt="Notifications and Reminders" />
                 <span className="font-inter font-semibold text-base text-green-600">
                   Keep track of courses yet to be completed
@@ -111,29 +117,13 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
-        <section className="flex flex-col items-center gap-6 md:gap-24 bg-[#0A2145] py-12 px-10 md:py-12 md:px-10">
-          <div className="flex flex-col items-center gap-10 md:gap-16 justify-center">
-            <h1 className="text-white text-center font-bodoni text-xl md:text-4xl text-green-600 font-normal">Royal Spring College</h1>
-            <div className="text-white font-inter text-sm md:text-base font-light flex items-center gap-2">
-              <p className="for_more">For more enquiries:</p>
-              <div className="flex items-center text-white font-inter text-sm md:text-base font-light">
-                <a href="mailto:helpsupport@easylead.com"><p className="hover:text-green-700">helpsupport@easylead.com</p></a>
-              </div>
-            </div>
-          </div>
-          <div className="bg-[#F2F4F7] w-11/12 md:w-97% h-0.5"></div>
-          <div className="text-white mt-0 font-inter text-sm md:text-base font-light flex justify-between w-11/12 md:w-80%">
-            <div className="font-inter text-sm md:text-base font-light">© 2023 Royal Spring College. All rights reserved</div>
-            <div className="gap-2 md:gap-6 h-6 flex justify-between">
-              <a href=""><img src={instagram} alt="Instagram" className="h-full" /></a>
-              <a href=""><img src={twitter} alt="Twitter" className="h-full" /></a>
-              <a href=""><img src={youtube} alt="YouTube" className="h-full" /></a>
-            </div>
-          </div>
-        </section>
-
-
+        <br />
+        <br />
+        <br />
+        <br />
+        <Footer />
       </div>
+     
       </>
     );
   };

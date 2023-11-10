@@ -7,7 +7,7 @@ export const Navbar: React.FC = () => {
 
     const navigate = useNavigate()
     const handleButtonClick = () => {
-        navigate("/signup");
+        navigate("/login");
       };
 
     return (
@@ -15,11 +15,11 @@ export const Navbar: React.FC = () => {
         <section
           className={`top-0 flex flex-col md:flex-row justify-between items-center p-6 md:pl-20 md:pr-20 shadow-lg ${"animate__animated animate__backInDown"}`}
         >
-          <div className="w-full md:w-auto h-[80px] flex">
+          <a href="/"><div className="w-full md:w-auto h-[80px] flex">
             <img id="image_hero" src={logo} alt="school logo" className="h-100" />
-          </div>
+          </div></a>
           <div className="flex flex-col md:flex-row gap-10 mt-4 md:mt-0 text-white">
-            <a href=""><p className="hover:text-green-700">Home</p></a>
+            <a href="/"><p className="hover:text-green-700">Home</p></a>
             <a href=""><p className="hover:text-green-700">Academics</p></a>
             <a href=""><p className="hover:text-green-700">Research</p></a>
             <a href=""><p className="hover:text-green-700">News</p></a>

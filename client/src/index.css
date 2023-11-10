@@ -2,6 +2,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.bg-lady{
+/* .bg-lady{
   background-image: url("./assets/lady-trader.png");
+} */
+.footer {
+  /* position: fixed; */
+  bottom: 0;
+  width: 100%;
 }

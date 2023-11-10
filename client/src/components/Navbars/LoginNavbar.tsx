@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/landingpage/navbar/royal school.webp";
   
 
-export const Navbar: React.FC = () => {
+export const LoginNavbar: React.FC = () => {
 
     const navigate = useNavigate()
     const handleButtonClick = () => {
