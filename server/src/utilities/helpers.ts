@@ -81,7 +81,6 @@ export const axiosVerifyStudent = async (reg_no:string)=>{
   }
   export const passWordGenerator = (lastName:string)=>{
       const mixup = lastName += Math.floor(100 + Math.random() * 9000)
-      console.log('mixup', typeof mixup)
       return mixup.toString()
   }
 

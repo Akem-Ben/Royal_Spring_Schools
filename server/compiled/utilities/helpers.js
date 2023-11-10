@@ -88,7 +88,6 @@ const checkPassword = async (enteredPassword, savedPassword) => {
 exports.checkPassword = checkPassword;
 const passWordGenerator = (lastName) => {
     const mixup = lastName += Math.floor(100 + Math.random() * 9000);
-    console.log('mixup', typeof mixup);
     return mixup.toString();
 };
 exports.passWordGenerator = passWordGenerator;
