@@ -9,15 +9,17 @@ const helpers_1 = require("../../utilities/helpers");
 const studentLogin = async (req, res) => {
     try {
         const { reg_no, password } = req.body;
+        if (!(0, helpers_1.isValidRegistration)(reg_no)) {
+            return res.status(400).json({ status: `error`, message: `Invalid Registration Number` });
+        }
         const findStudent = await students_1.default.findOne({ where: { reg_no } });
-        console.log('confirm', typeof findStudent.dataValues);
-        if (!reg_no)
+        if (!findStudent)
             return res.status(404).json({ status: `error`, message: `Student not added to the portal, please register` });
         const validated = await (0, helpers_1.checkPassword)(password, findStudent.password);
         if (!validated) {
             return res.status(401).send({
                 status: "error",
-                message: "Password is incorect",
+                message: "Password is incorrect",
             });
         }
         const payload = {

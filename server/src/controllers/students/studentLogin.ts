@@ -3,18 +3,19 @@ import Students, { StudentAttributes } from '../../models/studentsModel/students
 import { GenerateSignature, axiosVerifyStudent, checkPassword, hashPassword, isValidRegistration, passWordGenerator } from '../../utilities/helpers';
 import { emailHtml, sendmail } from '../../utilities/notification';
 
-
 export const studentLogin = async (req:Request, res:Response) => {
     try{
         const {reg_no, password} = req.body
+        if (!isValidRegistration(reg_no)) {
+          return res.status(400).json({status: `error`, message: `Invalid Registration Number`})
+        }
         const findStudent:any = await Students.findOne({where: {reg_no}}) as unknown as StudentAttributes
-        console.log('confirm',typeof findStudent.dataValues)
-        if(!reg_no) return res.status(404).json({status: `error`, message: `Student not added to the portal, please register`})
+        if(!findStudent) return res.status(404).json({status: `error`, message: `Student not added to the portal, please register`})
         const validated = await checkPassword(password, findStudent.password);
       if (!validated) {
         return res.status(401).send({
           status: "error",
-          message: "Password is incorect",
+          message: "Password is incorrect",
         });
       }
       const payload = {
