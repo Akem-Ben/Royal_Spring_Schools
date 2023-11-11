@@ -43,10 +43,10 @@ const registerACourse = async (req, res) => {
         const confirmRegistration = await courses_1.default.findOne({ where: { course_code, student_regNo: studentRegNo } });
         if (!confirmRegistration)
             return res.status(400).json({ status: `error`, message: `Unable to register` });
-        return res.status(200).json({ status: 'success', data: newCourse });
+        return res.status(200).json({ status: 'success', data: newCourse, message: `You have successfully enrolled for this course` });
     }
     catch (err) {
-        console.log(err.message);
+        console.log(err);
         return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
 };

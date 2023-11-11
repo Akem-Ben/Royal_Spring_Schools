@@ -61,33 +61,32 @@ export const userLogin = createAsyncThunk(
     }
 );
 
-// export const userKYC = createAsyncThunk(
-//     "usersKYC/updateUser",
-//     async (payload: FormData, thunkAPI) => {
-//         try {
-//             const response = await axios.patch("/users/updateUser", payload);
-
-//             // localStorage.setItem("user", JSON.stringify(response.data.confirmUser));
-//             // localStorage.setItem("token", JSON.stringify(response.data.token));
-
-
-//             // console.log("response", response.data.token)
-//             return response.data;
-//             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//         } catch (error: any) {
-//             if (error.response) {
-//                 console.log(error.response)
-//                 return thunkAPI.rejectWithValue(error.response.data);
-//             }
-//             if (error.request) {
-//                 return thunkAPI.rejectWithValue("Network Error");
-//             }
-//             if (error.message) {
-//                 return thunkAPI.rejectWithValue(error.message);
-//             }
-//         }
-//     }
-// );
+export const studentRegisterCourse = createAsyncThunk(
+    "studentRegister/updateCourses",
+    async (course_code: string, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(`/courses/register_course/${course_code}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+            });
+            return response.data;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                console.log(error.response)
+                return thunkAPI.rejectWithValue(error.response.data);
+            }
+            if (error.request) {
+                return thunkAPI.rejectWithValue("Network Error");
+            }
+            if (error.message) {
+                return thunkAPI.rejectWithValue(error.message);
+            }
+        }
+    }
+);
 
 export const studentAuthSlice = createSlice({
     name: "studentAuth",
@@ -118,7 +117,7 @@ export const studentAuthSlice = createSlice({
             state.isAuthenticated = true;
             state.student = action.payload.findStudent;
             state.token = action.payload.token;
-            localStorage.setItem("token", action.payload.token);
+            console.log(action.payload)
             toast(action.payload.message);
             state.error = "";
         });
@@ -129,29 +128,29 @@ export const studentAuthSlice = createSlice({
         });
 
         // KYC page info
-        // builder.addCase(userKYC.pending, (state) => {
-        //     // Add vendor to the state array
-        //     state.isLoading = true;
-        //     // state.isAuthenticated = false;
-        //     state.error = "";
-        // });
-        // builder.addCase(userKYC.fulfilled, (state, action) => {
-        //     // Add vendor to the state array
-        //     // state.isAuthenticated = true;
-        //     state.student = action.payload.data;
-        //     state.message = action.payload.message;
-        //     // localStorage.setItem("token", action.payload.token);
-        //     toast(action.payload.message);
-        //     state.error = "";
-        //     state.isLoading = false;
-        // });
-        // builder.addCase(userKYC.rejected, (state, action) => {
-        //     // Add vendor to the state array
-        //     state.isLoading = false;
-        //     state.message = "";
-        //     // state.isAuthenticated = false;
-        //     state.error = action.payload as string;
-        // });
+        builder.addCase(studentRegisterCourse.pending, (state) => {
+            // Add vendor to the state array
+            state.isLoading = true;
+            // state.isAuthenticated = false;
+            state.error = "";
+        });
+        builder.addCase(studentRegisterCourse.fulfilled, (state, action) => {
+            // Add vendor to the state array
+            // state.isAuthenticated = true;
+            state.student = action.payload.data;
+            state.message = action.payload.message;
+            // localStorage.setItem("token", action.payload.token);
+            toast(action.payload.message);
+            state.error = "";
+            state.isLoading = false;
+        });
+        builder.addCase(studentRegisterCourse.rejected, (state, action) => {
+            // Add vendor to the state array
+            state.isLoading = false;
+            state.message = "";
+            // state.isAuthenticated = false;
+            state.error = action.payload as string;
+        });
     },
 });
 

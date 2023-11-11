@@ -1,51 +1,51 @@
-import React, { useState } from "react";
+// LoginNavbar component
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/landingpage/navbar/royal school.webp";
-  
+import { showErrorToast } from "../../api/utilities/toastify";
 
 export const LoginNavbar: React.FC = () => {
+  const navigate = useNavigate();
+  const handleButtonClick = () => {
+    navigate("/login");
+  };
 
-    const navigate = useNavigate()
-    const handleButtonClick = () => {
-        navigate("/signup");
-      };
-
-    return (
-        <div className={`sticky top-0 bg-[#0A2145] z-50`}>
-        <section
-          className={`top-0 flex justify-between items-center p-6 pl-20 pr-20 shadow-lg ${"animate__animated animate__backInDown"}`}
-        >
-        <div className="w-10000 h-[80px] flex">
-        <img id="image_hero" src={logo} alt="school logo" className="h-100"/>
-          <p className="text-green-600 text-center ml-[10px] mt-[20px] font-bodoni text-l md:text-3xl leading-tight tracking-tighter">
-            Royal Spring College Portal
-          </p>
-          </div>
-          <div className="flex gap-10">
-          <div className="flex flex-col items-center justify-center h-full">
-                <p className="text-white justify-center items-center">
-                    Are you newly enrolled?
-                </p>
-          <button
-            className="landing_btn py-3 px-4 flex justify-center items-center gap-2 rounded-md bg-green-600 text-white h-10 mt-1 font-inter transition duration-300 hover:bg-white hover:text-green-700 hover:border-2"
-            onClick={handleButtonClick}
-          >
-            Register
-          </button>
-          </div>
-          <div className="flex flex-col items-center justify-center h-full">
-          <p className="text-white">
-                    Already Registered?
-                </p>
-          <button
-            className="landing_btn py-3 px-4 flex justify-center items-center gap-2 rounded-md bg-green-600 text-white h-10 mt-1 font-inter transition duration-300 hover:bg-white hover:text-green-700 hover:border-2"
-            onClick={handleButtonClick}
-          >
-            Login
-          </button>
-          </div>
-          </div>
-        </section>
+  return (
+    <div className={`sticky top-0 h-[100px] bg-[#0A2145] z-50`}>
+      <section
+        className={`top-0 flex flex-col h-[100px] md:flex-row justify-between items-center p-6 md:pl-20 md:pl-96 shadow-lg ${"animate__animated animate__backInDown"}`}
+      >
+        <div className="flex flex-col md:flex-row gap-10 mt-4 md:mt-0 text-white">
+          <a href="/">
+            <p className="hover:text-green-700">Home</p>
+          </a>
+          <a href="">
+            <p className="hover:text-green-700">Academics</p>
+          </a>
+          <a href="">
+            <p className="hover:text-green-700">Research</p>
+          </a>
+          <a href="">
+            <p className="hover:text-green-700">News</p>
+          </a>
+          <a href="">
+            <p className="hover:text-green-700">Contact Us</p>
+          </a>
         </div>
-    )
-}
+        <a href="/">
+          <div className="w-full md:w-auto h-[70px] flex">
+            <img
+              id="image_hero"
+              src={logo}
+              alt="school logo"
+              className="h-20 w-20 rounded-full"
+            />
+            <p className="text-green-400 mr-[20px] w-[40px] ml-2 text-sm font-bodoni md:text-xl leading-tight font-bold tracking-tighter">
+              Royal Spring College
+            </p>
+          </div>
+        </a>
+      </section>
+    </div>
+  );
+};

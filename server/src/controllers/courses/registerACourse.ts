@@ -42,9 +42,9 @@ export const registerACourse = async (req: JwtPayload, res: Response) => {
 
   const confirmRegistration = await Courses.findOne({where: {course_code, student_regNo:studentRegNo}}) as unknown as CourseAttributes
   if(!confirmRegistration) return res.status(400).json({status: `error`, message: `Unable to register`})
-  return res.status(200).json({ status: 'success', data: newCourse });
+  return res.status(200).json({ status: 'success', data: newCourse, message: `You have successfully enrolled for this course` });
 } catch (err:any) {
-  console.log(err.message);
+  console.log(err);
   return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
 }
 };

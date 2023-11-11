@@ -18,42 +18,18 @@ import { Op } from 'sequelize';
 
 export const getStudentEnrolledCourses = async (req: JwtPayload, res: Response) => {
     try {
-        const page = Number.parseInt(req.query.page) - 1 || 0;
-        const limit = Number.parseInt(req.query.limit) || 5;
-        const search = req.query.search || "";
-        const sort = req.query.sort || Courses;
-
-        const sortOptions = [
-            "",
-            "enrollment_status",
-            "duration"
-        ];
-
-        const sortOrder:any = sortOptions.includes(sort) ? [[sort, 'ASC']] : [];
 
         const reg_no = req.user.reg_no;
-
-        const offset = page * limit;
 
         const courseFinder:any = await Courses.findAndCountAll({
             where: {
                 student_regNo: reg_no,
-                [Op.or]: [
-                    { name_of_course: { [Op.iLike]: `%${search}%` } },
-                    { name_of_instructor: { [Op.iLike]: `%${search}%` } },
-                    { course_code: { [Op.iLike]: `%${search}%` } },
-                    { enrollment_status: { [Op.eq]: search } }
-                ]
             },
-            order: sortOrder,
-            limit: limit,
-            offset: offset
         }) as unknown as CourseAttributes;
 
         if (!courseFinder || courseFinder.count === 0) {
-            return res.status(404).json({ status: `error`, message: `No courses found in this category` });
+            return res.status(404).json({ status: `error`, message: `No courses found` });
         }
-
         return res.status(200).json({ status: `success`, data: courseFinder.rows, count: courseFinder.count });
     } catch (err: any) {
         console.log(err.message);
