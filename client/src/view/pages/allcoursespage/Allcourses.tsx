@@ -19,7 +19,7 @@ export const Allcourses: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [loadingState, setLoadingState] = useState<{ [key: string]: boolean }>({});
-  const itemsPerPage = 20;
+  const itemsPerPage = 6;
 
   const handleEnroll = async (e: any, course_code: string) => {
     try {
@@ -108,7 +108,8 @@ export const Allcourses: React.FC = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   let currentCourses;
-  courses.length > 10 ? (currentCourses = courses.slice(startIndex, endIndex)) : (currentCourses = courses);
+ filteredCourses.length > itemsPerPage ? (currentCourses = filteredCourses.slice(startIndex, endIndex)) : (currentCourses = filteredCourses);
+  
 
   return (
     <>
@@ -156,8 +157,8 @@ export const Allcourses: React.FC = () => {
     </tr>
   </thead>
   <tbody className="w-full">
-  {Array.isArray(filteredCourses) && filteredCourses.length !== 0 ? (
-          filteredCourses.map((course) => (
+  {Array.isArray(currentCourses) && currentCourses.length !== 0 ? (
+          currentCourses.map((course) => (
         <tr key={course.id} className="pl-4 md:pl-[40px] w-full bg-green-300 border-b border-gray-500">
           <td className="p-2 align-middle border-r border-gray-500">{course.name_of_course}</td>
           <td className="p-2 align-middle border-r border-gray-500">{course.course_code}</td>
@@ -187,7 +188,7 @@ export const Allcourses: React.FC = () => {
   </tbody>
 </table>
 <br />
-{Array.isArray(filteredCourses) && filteredCourses.length === 0 && (
+{Array.isArray(currentCourses) && currentCourses.length === 0 && (
   <p className="text-center">NO COURSES FOUND</p>
 )}
 

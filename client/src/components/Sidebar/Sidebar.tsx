@@ -85,8 +85,8 @@ export const SideBar: React.FC = () => {
             <a href="/mycourses">
               <p className="hover:text-green-300">My Courses</p>
             </a>
-            <a href="#">
-              <p className="hover:text-green-300">Edit Profile</p>
+            <a href="/profile">
+              <p className="hover:text-green-300">My Profile</p>
             </a>
             <a href="#" onClick={handleLogout}>
               <p className="hover:text-green-300">Logout</p>

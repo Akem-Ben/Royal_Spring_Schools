@@ -6,6 +6,7 @@ import LoginStudent from "../pages/loginpage/LoginPage";
 import { Dashboard } from "../pages/dashboardpage/Dashboard";
 import { Allcourses } from "../pages/allcoursespage/Allcourses";
 import { Mycourses } from "../pages/mycoursespage/Mycourses";
+import ProfilePage from "../pages/myprofilepage/MyProfile";
 
 export const BaseRoutes: React.FC = () => {
     return (
@@ -16,6 +17,7 @@ export const BaseRoutes: React.FC = () => {
             <Route path="/signup" element={<VerifyStudent />}></Route>
             <Route path="/login" element={<LoginStudent />}></Route>
             {/* <Route path="/dashboard" element={<Dashboard />}></Route> */}
+            <Route path="/profile" element={<ProfilePage />}></Route>
             <Route path="/allcourses" element={<Allcourses />}></Route>
             <Route path="/mycourses" element={<Mycourses />}></Route>
             </Routes>

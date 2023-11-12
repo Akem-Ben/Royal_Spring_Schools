@@ -11,6 +11,8 @@ const morgan_1 = __importDefault(require("morgan"));
 const database_1 = require("./configurations/database");
 const students_1 = __importDefault(require("./routes/students/students"));
 const courses_1 = __importDefault(require("./routes/courses/courses"));
+const students_2 = __importDefault(require("./models/studentsModel/students"));
+const courses_2 = __importDefault(require("./models/coursesModel/courses"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -27,15 +29,15 @@ database_1.database.sync({})
     .catch((err) => {
     console.log(err);
 });
-//   app.get('/', async (req:Request, res:Response)=>{
-//     const allStudents = await Students.findAll({})
-//     const allCourses = await Courses.findAll({})
-//     return res.status(200).json({
-//         message: `All Data Fetched`,
-//         Students: allStudents,
-//         Courses: allCourses
-//     })
-// })
+app.get('/', async (req, res) => {
+    const allStudents = await students_2.default.findAll({});
+    const allCourses = await courses_2.default.findAll({});
+    return res.status(200).json({
+        message: `All Data Fetched`,
+        Students: allStudents,
+        Courses: allCourses
+    });
+});
 app.listen(process.env.PORT || 3030, () => {
     console.log(`App is listening on Port ${process.env.PORT || 3030}`);
 });
