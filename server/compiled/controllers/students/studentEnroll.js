@@ -40,7 +40,7 @@ const registerStudent = async (req, res) => {
         const findStudent = await students_1.default.findOne({ where: { reg_no } });
         if (!findStudent)
             return res.status(400).json({ status: `error`, message: `Unable to create` });
-        return res.status(200).json({ status: `success`, data: findStudent, message: 'Enrolment Successful, Your login details have been sent to your mail.' });
+        return res.status(200).json({ status: `success`, data: findStudent, message: `Enrolment Successful, Your login details have been sent to your mail: ${studentData.email}` });
     }
     catch (error) {
         console.log(error.message);

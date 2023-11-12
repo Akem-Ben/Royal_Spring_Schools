@@ -85,6 +85,7 @@ export const Mycourses: React.FC = () => {
         return b.enrollment_status.localeCompare(a.enrollment_status);
       }
     });
+    setCourses(sortedCourses);
     setFilteredCourses(sortedCourses);
   };
 
@@ -144,13 +145,13 @@ export const Mycourses: React.FC = () => {
         >
           Search
         </button>
-        <button
+        {/* <button
           className="py-2 px-4 md:px-6 justify-center items-center rounded-md bg-blue-600 text-white h-10 md:h-12 w-full md:w-auto font-inter flex-shrink-0"
           type="button"
           onClick={handleSort}
         >
           Sort by Enrollment
-        </button>
+        </button> */}
       </div>
     </div>
 

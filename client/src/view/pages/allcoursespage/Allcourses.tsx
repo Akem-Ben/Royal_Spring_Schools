@@ -54,6 +54,7 @@ export const Allcourses: React.FC = () => {
       }
     });
     setCourses(sortedCourses);
+    setFilteredCourses(sortedCourses);
   };
 
   const handlePageChange = (pageNumber: number) => {
