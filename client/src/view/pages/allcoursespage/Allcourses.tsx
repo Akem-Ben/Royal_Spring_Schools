@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../../../api/httpService';
 import { LoginNavbar } from '../../../components/Navbars/LoginNavbar';
 import { SideBar } from '../../../components/Sidebar/Sidebar';
-import { showErrorToast, showSuccessToast } from '../../../api/utilities/toastify';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { showErrorToast } from '../../../api/utilities/toastify';
+import { useAppDispatch } from '../../../store/hooks';
 import { studentRegisterCourse } from '../../../slice/studentSlice';
 
 export const Allcourses: React.FC = () => {

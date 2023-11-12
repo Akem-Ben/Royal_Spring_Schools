@@ -12,7 +12,7 @@ interface Student {
   faculty: string;
   department: string;
   email: string;
-  studentImage: string;
+  student_image: string;
 }
 
 const ProfilePage: React.FC = () => {

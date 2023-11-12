@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import instagram from "../../assets/landingpage/instagram.png";
 import twitter from "../../assets/landingpage/twitter.png";
 import youtube from "../../assets/landingpage/youtube.png";

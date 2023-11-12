@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/landingpage/navbar/royal school.webp";
 import { showSuccessToast } from "../../api/utilities/toastify";
 
 export const SideBar: React.FC = () => {
@@ -8,10 +7,6 @@ export const SideBar: React.FC = () => {
   let student: any = localStorage.getItem("student");
   student = JSON.parse(student);
   const [showSidebar, setShowSidebar] = useState(false);
-
-  const handleButtonClick = () => {
-    navigate("/login");
-  };
 
   const handleLogout = () => {
     showSuccessToast("Successfully logged out");

@@ -10,8 +10,8 @@ function App() {
   return (
     <Provider store={store}>
     <main id="app">
-        <BaseRoutes />
         <ToastContainer />
+        <BaseRoutes />
       </main>
       </Provider>
   );
