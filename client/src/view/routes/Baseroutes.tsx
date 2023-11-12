@@ -15,7 +15,7 @@ export const BaseRoutes: React.FC = () => {
             <Route path="/" element={<LandingPage />}></Route>
             <Route path="/signup" element={<VerifyStudent />}></Route>
             <Route path="/login" element={<LoginStudent />}></Route>
-            <Route path="/dashboard" element={<Dashboard />}></Route>
+            {/* <Route path="/dashboard" element={<Dashboard />}></Route> */}
             <Route path="/allcourses" element={<Allcourses />}></Route>
             <Route path="/mycourses" element={<Mycourses />}></Route>
             </Routes>

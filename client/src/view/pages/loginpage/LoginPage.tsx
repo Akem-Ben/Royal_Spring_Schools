@@ -34,7 +34,7 @@ const LoginStudent = () => {
 
       // localStorage.setItem("token", data.token);
       // localStorage.setItem("user", JSON.stringify(data.User))
-      navigate('/dashboard')
+      navigate('/allcourses')
     } catch (error: any) {
       setLoading(false);
       if (error) {

@@ -41,10 +41,8 @@ export const userLogin = createAsyncThunk(
             const response = await axios.post("/students/login", payload);
             console.log('response is', response.data)
             localStorage.setItem("student", JSON.stringify(response.data.data));
-            localStorage.setItem("token", JSON.stringify(response.data.token));
+            localStorage.setItem("token", response.data.token);
            
-
-            // console.log("response", response.data.token)
             return response.data;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
@@ -88,6 +86,33 @@ export const studentRegisterCourse = createAsyncThunk(
     }
 );
 
+export const markCourseAsCompleted = createAsyncThunk(
+    "studentUpdateCourse/completeCourse",
+    async (course_code: string, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.patch(`/courses/mark_completed/${course_code}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+            });
+            return response.data;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error.response) {
+                console.log(error.response)
+                return thunkAPI.rejectWithValue(error.response.data);
+            }
+            if (error.request) {
+                return thunkAPI.rejectWithValue("Network Error");
+            }
+            if (error.message) {
+                return thunkAPI.rejectWithValue(error.message);
+            }
+        }
+    }
+);
+
 export const studentAuthSlice = createSlice({
     name: "studentAuth",
     initialState,
@@ -108,12 +133,10 @@ export const studentAuthSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(userLogin.pending, (state) => {
-            // Add vendor to the state array
             state.isAuthenticated = false;
             state.error = "";
         });
         builder.addCase(userLogin.fulfilled, (state, action) => {
-            // Add vendor to the state array
             state.isAuthenticated = true;
             state.student = action.payload.findStudent;
             state.token = action.payload.token;
@@ -122,35 +145,45 @@ export const studentAuthSlice = createSlice({
             state.error = "";
         });
         builder.addCase(userLogin.rejected, (state, action) => {
-            // Add vendor to the state array
             state.isAuthenticated = false;
             state.error = action.payload as string;
         });
 
-        // KYC page info
+        // Register Courses
         builder.addCase(studentRegisterCourse.pending, (state) => {
-            // Add vendor to the state array
             state.isLoading = true;
-            // state.isAuthenticated = false;
             state.error = "";
         });
         builder.addCase(studentRegisterCourse.fulfilled, (state, action) => {
-            // Add vendor to the state array
-            // state.isAuthenticated = true;
             state.student = action.payload.data;
             state.message = action.payload.message;
-            // localStorage.setItem("token", action.payload.token);
             toast(action.payload.message);
             state.error = "";
             state.isLoading = false;
         });
         builder.addCase(studentRegisterCourse.rejected, (state, action) => {
-            // Add vendor to the state array
             state.isLoading = false;
             state.message = "";
-            // state.isAuthenticated = false;
             state.error = action.payload as string;
         });
+        
+        // Mark Courses Completed
+        builder.addCase(markCourseAsCompleted.pending, (state) => {
+            state.isLoading = true;
+            state.error = "";
+        });
+        builder.addCase(markCourseAsCompleted.fulfilled, (state, action) => {
+            state.student = action.payload.data;
+            state.message = action.payload.message;
+            toast(action.payload.message);
+            state.error = "";
+            state.isLoading = false;
+        });
+        builder.addCase(markCourseAsCompleted.rejected, (state, action) => {
+            state.isLoading = false;
+            state.message = "";
+            state.error = action.payload as string;
+            });
     },
 });
 
