@@ -20,7 +20,7 @@ const markAsCompleted = async (req, res) => {
         const updatedCourse = await courses_1.default.findOne({
             where: { course_code, student_regNo: reg_no },
         });
-        return res.status(200).json({ status: `success`, data: updatedCourse });
+        return res.status(200).json({ status: `success`, data: updatedCourse, message: `Successfully Completed` });
     }
     catch (err) {
         console.log(err.message);

@@ -4,35 +4,79 @@ import { axiosgetAllCourses } from '../../utilities/helpers';
 import Courses, { CourseAttributes } from '../../models/coursesModel/courses';
 import { Op } from 'sequelize';
 
-// export const getStudentEnrolledCourses = async(req:JwtPayload, res:Response)=>{
-//     try{
+// export const getStudentEnrolledCourses = async (req: JwtPayload, res: Response) => {
+//     try {
+//         const search = req.query.search
 //         const reg_no = req.user.reg_no;
-//         const courseFinder = await Courses.findAll({where: {student_regNo:reg_no}})
-//         if(!courseFinder) return res.status(404).json({status: `error`, message: `No courses found`})
-//         return res.status(200).json({status: `success`, data: courseFinder})
-//     }catch(err:any){
-//         console.log(err.message)
-//         return res.status(500).json({status: `error`, message: `Internal Server Error`})
+//         if(!search || search === ""){
+//             const Finder:any = await Courses.findAll({
+//                 where: {
+//                     student_regNo: reg_no,
+//                 },
+//             }) as unknown as CourseAttributes;
+    
+//             if (!Finder) {
+//                 return res.status(404).json({ status: `error`, message: `No courses found` });
+//             }
+//             return res.status(200).json({ status: `success`, data: Finder });
+//         }else{
+//             const Finder:any = await Courses.findAndCountAll({
+//                 where: {
+//                     student_regNo: reg_no, course_code: search || name_of_course: search || name_of_instructor: search
+//                 },
+//             }) as unknown as CourseAttributes;
+    
+//             if (!Finder || Finder.count === 0) {
+//                 return res.status(404).json({ status: `error`, message: `No courses found` });
+//             }
+//             return res.status(200).json({ status: `success`, data: Finder});
+//         }
+//     } catch (err: any) {
+//         console.log(err.message);
+//         return res.status(500).json({ status: `error`, message: `Internal Server Error` });
 //     }
-// }
+// };
 
 export const getStudentEnrolledCourses = async (req: JwtPayload, res: Response) => {
     try {
-
+        const search = req.query.search;
         const reg_no = req.user.reg_no;
 
-        const courseFinder:any = await Courses.findAndCountAll({
-            where: {
-                student_regNo: reg_no,
-            },
-        }) as unknown as CourseAttributes;
+        if (!search || search === "") {
+            const courses = await Courses.findAll({
+                where: {
+                    student_regNo: reg_no,
+                },
+            });
 
-        if (!courseFinder || courseFinder.count === 0) {
-            return res.status(404).json({ status: `error`, message: `No courses found` });
+            if (!courses || courses.length === 0) {
+                return res.status(404).json({ status: 'error', message: 'No courses found' });
+            }
+
+            return res.status(200).json({ status: 'success', data: courses });
+        } else {
+            const coursesAndCount = await Courses.findAndCountAll({
+                where: {
+                    student_regNo: reg_no,
+                    [Op.or]: [
+                        { course_code: { [Op.iLike]: `%${search}%` } },
+                        { name_of_course: { [Op.iLike]: `%${search}%` } },
+                        { name_of_instructor: { [Op.iLike]: `%${search}%` } },
+                    ],
+                },
+            });
+
+            const courses = coursesAndCount.rows;
+            const count = coursesAndCount.count;
+
+            if (!courses || count === 0) {
+                return res.status(404).json({ status: 'error', message: 'No courses found' });
+            }
+
+            return res.status(200).json({ status: 'success', data: { courses, count } });
         }
-        return res.status(200).json({ status: `success`, data: courseFinder.rows, count: courseFinder.count });
     } catch (err: any) {
         console.log(err.message);
-        return res.status(500).json({ status: `error`, message: `Internal Server Error` });
+        return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
 };

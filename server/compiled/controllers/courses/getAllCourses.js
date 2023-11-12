@@ -4,13 +4,9 @@ exports.getAllCourses = void 0;
 const helpers_1 = require("../../utilities/helpers");
 const getAllCourses = async (req, res) => {
     try {
-        const { page, limit, sort, search } = req.query;
+        const { search } = req.query;
         // Define default values or empty strings for parameters
-        const queryParams = {
-            page: page,
-            limit: limit,
-            sort: sort,
-        };
+        const queryParams = {};
         if (search) {
             let search2 = search.toLowerCase();
             queryParams.search = search2;

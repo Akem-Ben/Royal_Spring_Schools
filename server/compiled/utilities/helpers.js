@@ -7,6 +7,9 @@ exports.isValidRegistration = exports.passWordGenerator = exports.checkPassword 
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const axios_1 = __importDefault(require("axios"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const APP_SECRET = process.env.APP_SECRET;
 const axiosVerifyStudent = async (reg_no) => {
     try {
         const url = `https://database-for-students-and-courses.onrender.com/student/single_student/${reg_no}`;
@@ -25,16 +28,10 @@ exports.axiosVerifyStudent = axiosVerifyStudent;
 const axiosgetAllCourses = async (queryParams) => {
     try {
         const url = `https://database-for-students-and-courses.onrender.com/courses/all_courses`;
-        const page = Number.parseInt(queryParams.page || '1', 10);
-        const limit = Number.parseInt(queryParams.limit || '10', 10);
         const search = queryParams.search || '';
-        const sort = queryParams.sort || 'name_of_course';
         const response = await axios_1.default.get(url, {
             params: {
-                page,
-                limit,
-                search,
-                sort,
+                search
             },
         });
         return response;
@@ -69,7 +66,7 @@ const hashPassword = async (password) => {
 };
 exports.hashPassword = hashPassword;
 const GenerateSignature = async (payload) => {
-    return jsonwebtoken_1.default.sign(payload, process.env.APP_SECRET, { expiresIn: '10h' });
+    return jsonwebtoken_1.default.sign(payload, process.env.APP_SECRET, { expiresIn: '3h' });
 };
 exports.GenerateSignature = GenerateSignature;
 const verifySignature = async (signature) => {

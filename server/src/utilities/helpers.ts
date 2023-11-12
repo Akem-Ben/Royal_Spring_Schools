@@ -2,7 +2,11 @@ import bcrypt from 'bcryptjs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import axios, { AxiosResponse } from 'axios'
 import { Request, Response } from 'express';
+import dotenv from 'dotenv';
 
+dotenv.config()
+
+const APP_SECRET = process.env.APP_SECRET as string
 export const axiosVerifyStudent = async (reg_no:string)=>{
     try {
       const url = `https://database-for-students-and-courses.onrender.com/student/single_student/${reg_no}`;
@@ -20,18 +24,11 @@ export const axiosVerifyStudent = async (reg_no:string)=>{
   export const axiosgetAllCourses = async (queryParams: { page?: string; limit?: string; search?: string; sort?: string }): Promise<AxiosResponse> => {
     try {
         const url = `https://database-for-students-and-courses.onrender.com/courses/all_courses`;
-
-        const page = Number.parseInt(queryParams.page || '1', 10);
-        const limit = Number.parseInt(queryParams.limit || '10', 10);
         const search = queryParams.search || '';
-        const sort = queryParams.sort || 'name_of_course';
 
         const response = await axios.get(url, {
             params: {
-                page,
-                limit,
-                search,
-                sort,
+                search
             },
         });
 
@@ -63,18 +60,18 @@ export const axiosVerifyStudent = async (reg_no:string)=>{
         let salt = await bcrypt.genSalt(10)
         return await bcrypt.hash(password, salt)
   }
-  export const GenerateSignature = async(payload:any) => {
-      return jwt.sign(payload, process.env.APP_SECRET!, {expiresIn:'10h'})
-  }
-  
-  export const verifySignature = async (signature: string) => {
+  export const GenerateSignature = async (payload: Record<string, string>) => {
+    return jwt.sign(payload, process.env.APP_SECRET!, { expiresIn: '3h' });
+}
+
+export const verifySignature = async (signature:string) => {
     try {
-      return jwt.verify(signature, process.env.APP_SECRET!) as JwtPayload;
-    } catch (error:any) {
-      // Handle the error, log it, and decide how to respond to it.
-      throw new Error(`Token verification error: ${error.message}`);
+        return jwt.verify(signature, process.env.APP_SECRET!);
+    } catch (error: any) {
+        // Handle the error, log it, and decide how to respond to it.
+        throw new Error(`Token verification error: ${error.message}`);
     }
-  }
+}
   
   export const checkPassword = async(enteredPassword:string, savedPassword:string)=>{
       return await bcrypt.compare(enteredPassword, savedPassword)

@@ -19,7 +19,7 @@ export const markAsCompleted = async(req:JwtPayload, res:Response)=>{
           const updatedCourse = await Courses.findOne({
             where: { course_code, student_regNo: reg_no },
           }) as unknown as CourseAttributes;
-        return res.status(200).json({status: `success`, data: updatedCourse})
+        return res.status(200).json({status: `success`, data: updatedCourse, message: `Successfully Completed`})
     }catch(err:any){
         console.log(err.message)
         return res.status(500).json({status: `error`, message: `Internal Server Error`})

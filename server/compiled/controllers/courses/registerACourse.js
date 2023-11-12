@@ -46,7 +46,7 @@ const registerACourse = async (req, res) => {
         return res.status(200).json({ status: 'success', data: newCourse, message: `You have successfully enrolled for this course` });
     }
     catch (err) {
-        console.log(err);
+        console.log(err.message);
         return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
 };

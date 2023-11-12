@@ -1,16 +1,13 @@
 import { Request, Response } from 'express';
 import { axiosgetAllCourses } from '../../utilities/helpers';
+import { JwtPayload } from 'jsonwebtoken';
 
-export const getAllCourses = async (req: Request, res: Response) => {
+export const getAllCourses = async (req: JwtPayload, res: Response) => {
     try {
-        const { page, limit, sort, search } = req.query;
+        const { search } = req.query;
 
         // Define default values or empty strings for parameters
-        const queryParams: Record<string, string | undefined> = {
-            page: page as string | undefined,
-            limit: limit as string | undefined,
-            sort: sort as string | undefined,
-        };
+        const queryParams: Record<string, string | undefined> = {};
         
         if (search) {
             let search2 = (search as string).toLowerCase()

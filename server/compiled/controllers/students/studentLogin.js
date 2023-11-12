@@ -25,13 +25,7 @@ const studentLogin = async (req, res) => {
         const payload = {
             id: findStudent.id,
             reg_no: findStudent.reg_no,
-            firstName: findStudent.firstName,
-            lastName: findStudent.lastName,
-            year: findStudent.year,
-            faculty: findStudent.faculty,
-            department: findStudent.department,
-            email: findStudent.email,
-            student_image: findStudent.student_image
+            email: findStudent.email
         };
         const token = await (0, helpers_1.GenerateSignature)(payload);
         return res.status(200).json({

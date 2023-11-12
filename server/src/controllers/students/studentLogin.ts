@@ -2,6 +2,7 @@ import express, {Request, Response} from 'express';
 import Students, { StudentAttributes } from '../../models/studentsModel/students';
 import { GenerateSignature, axiosVerifyStudent, checkPassword, hashPassword, isValidRegistration, passWordGenerator } from '../../utilities/helpers';
 import { emailHtml, sendmail } from '../../utilities/notification';
+import jwt from 'jsonwebtoken';
 
 export const studentLogin = async (req:Request, res:Response) => {
     try{
@@ -21,16 +22,9 @@ export const studentLogin = async (req:Request, res:Response) => {
       const payload = {
         id: findStudent.id,
         reg_no: findStudent.reg_no,
-        firstName: findStudent.firstName,
-        lastName:findStudent.lastName,
-        year:findStudent.year,
-        faculty:findStudent.faculty,
-        department:findStudent.department,
-        email:findStudent.email,
-        student_image:findStudent.student_image
-
+        email:findStudent.email
       }
-      const token = await GenerateSignature(payload);
+      const token = await GenerateSignature(payload)
       return res.status(200).json({
         status: "success",
         message: "Login Successful",
