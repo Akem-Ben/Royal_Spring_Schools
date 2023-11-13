@@ -23,7 +23,7 @@ export const Mycourses: React.FC = () => {
     setSelectedCourse(course);
   };
   
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
   const closeModal = () => {
     setSelectedCourse(null);
   };
@@ -175,6 +175,7 @@ export const Mycourses: React.FC = () => {
     <table className="table w-full md:w-[90%] bg-[#0A2145] text-center overflow-x-auto">
       <thead className="text-white">
         <tr>
+          <th></th>
           <th>Course Name</th>
           <th>Course Code</th>
           <th>Instructor</th>
@@ -187,6 +188,7 @@ export const Mycourses: React.FC = () => {
         {Array.isArray(currentCourses) && currentCourses.length !== 0 ? (
           currentCourses.map((course) => (
             <tr key={course.id} className="pl-[40px] w-[100%] bg-green-300 border-b border-gray-500">
+              <td className="align-middle border-r border-gray-500 w-[300px] pl-[50px]"><img className="w-[50%]" src={course.course_image} /></td>
               <td className="align-middle border-r border-gray-500">{course.name_of_course}</td>
               <td className="align-middle border-r border-gray-500">{course.course_code}</td>
               <td className="align-middle border-r border-gray-500">{course.name_of_instructor}</td>
@@ -196,14 +198,14 @@ export const Mycourses: React.FC = () => {
                 <td className="align-middle border-r border-gray-500">{course.enrollment_status}</td>
               )}
               <td className="align-middle">
-                <button className="py-2 px-4 justify-center items-center rounded-md bg-green-600 text-white h-10 md:mt-1 font-inter hover:bg-[#0A2145] hover:text-green-200"
+                <button className="py-2 px-4 justify-center items-center rounded-md bg-green-600 text-white h-15 md:mt-1 font-inter hover:bg-[#0A2145] hover:text-green-200"
                   type="button" onClick={() => handleView(course)}>View Details</button>
               </td>
               <td className="align-middle">
                 {course.isCompleted === false ? (
-                  <button className="py-2 px-4 justify-center items-center rounded-md bg-green-600 text-white h-10 md:mt-1 font-inter hover:bg-[#0A2145] hover:text-green-200"
+                  <button className="py-2 px-4 justify-center items-center rounded-md bg-green-600 text-white h-15 md:mt-1 font-inter hover:bg-[#0A2145] hover:text-green-200"
                     type="button" onClick={(e) => handleComplete(e, course.course_code)}
-                    disabled={loadingState[course.course_code]}>{loadingState[course.course_code] ? "Loading..." : "Click to Mark as Completed"}</button>
+                    disabled={loadingState[course.course_code]}>{loadingState[course.course_code] ? "Loading..." : "Mark as Completed"}</button>
                 ) : (
                   <button disabled>Already Completed</button>
                 )}

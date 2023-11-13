@@ -19,7 +19,7 @@ export const Allcourses: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [loadingState, setLoadingState] = useState<{ [key: string]: boolean }>({});
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
 
   const handleEnroll = async (e: any, course_code: string) => {
     try {
@@ -115,7 +115,7 @@ export const Allcourses: React.FC = () => {
     <>
       <LoginNavbar />
       <SideBar />
-      <section className="bg-[#D9DDDC] pt-[20px] ml-[300px] mr-[50px] h-[600px] flex flex-col justify-flex-start items-center mt-[30px]">
+      <section className="bg-[#D9DDDC] pt-[20px] ml-[300px] mr-[50px] h-[800px] flex flex-col justify-flex-start items-center mt-[30px]">
       <div className="mb-3 flex flex-col w-full md:ml-[10px] md:w-[90%] justify-center text-center items-center">
       <div className="input-group w-full gap-2 md:gap-4 flex flex-col md:flex-row">
   <div className="relative flex-grow">
@@ -149,6 +149,7 @@ export const Allcourses: React.FC = () => {
 <table className="table w-full md:w-[90%] bg-[#0A2145] text-center overflow-x-auto">
   <thead className="text-white">
     <tr>
+      <th className="p-2"></th>
       <th className="p-2">Course Name</th>
       <th className="p-2">Course Code</th>
       <th className="p-2">Instructor</th>
@@ -160,6 +161,7 @@ export const Allcourses: React.FC = () => {
   {Array.isArray(currentCourses) && currentCourses.length !== 0 ? (
           currentCourses.map((course) => (
         <tr key={course.id} className="pl-4 md:pl-[40px] w-full bg-green-300 border-b border-gray-500">
+          <td className="p-2 align-middle items-center w-[300px] pl-[50px] border-r border-gray-500"><img className="w-[50%]" src={course.course_image} /></td>
           <td className="p-2 align-middle border-r border-gray-500">{course.name_of_course}</td>
           <td className="p-2 align-middle border-r border-gray-500">{course.course_code}</td>
           <td className="p-2 align-middle border-r border-gray-500">{course.name_of_instructor}</td>

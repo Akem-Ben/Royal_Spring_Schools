@@ -15,9 +15,9 @@ const config = (): Config => {
 		cache = Object.freeze({
 			secrets: {
 				apiHost:
-					environment === "development"
+					environment === "development"  
 						? "https://royal-spring-backend.onrender.com"
-						: "https://royal-spring-backend.onrender.com",
+						: "https://royal-spring-backend.onrender.com"
 			},
 		});
 	}
