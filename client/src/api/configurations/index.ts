@@ -16,8 +16,8 @@ const config = (): Config => {
 			secrets: {
 				apiHost:
 					environment === "development"  
-						? "https://royal-spring-backend.onrender.com"
-						: "https://royal-spring-backend.onrender.com"
+						? "https://royal-spring-backend.onrender.com/"
+						: "https://royal-spring-backend.onrender.com/"
 			},
 		});
 	}
